@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="100%" height="240" style="background:#0b1517;border-radius:6px;overflow:hidden">
+  <defs>
+    <!-- Radial glow for amber esca lure -->
+    <radialGradient id="lureGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e0a33a" stop-opacity="0.8"/>
+      <stop offset="40%" stop-color="#e0a33a" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0b1517" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise"/>
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.04 0"/>
+      <feComposite in2="SourceGraphic" in="gl" operator="in"/>
+    </filter>
+  </defs>
+
+  <!-- Bathymetric contour lines -->
+  <g stroke="#1f3b36" stroke-width="1" stroke-dasharray="3 4" opacity="0.45">
+    <ellipse cx="450" cy="120" rx="420" ry="105"/>
+    <ellipse cx="450" cy="120" rx="340" ry="85"/>
+    <ellipse cx="450" cy="120" rx="260" ry="65"/>
+    <line x1="30" y1="120" x2="870" y2="120"/>
+  </g>
+
+  <!-- Anglerfish Body & Articulated Lure with SMIL Animation -->
+  <g transform="translate(110, 45)">
+    <!-- Swaying filament and lure group -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-4 60 70; 4 60 70; -4 60 70" dur="6s" repeatCount="indefinite" ease="ease-in-out"/>
+      
+      <!-- Filament Stalk -->
+      <path d="M 40 70 C 35 30, 50 10, 85 8 C 96 7, 102 16, 94 24" fill="none" stroke="#8fa8a0" stroke-width="2.5" stroke-linecap="round"/>
+      
+      <!-- Glowing Lure Aura -->
+      <circle cx="94" cy="24" r="28" fill="url(#lureGlow)">
+        <animate attributeName="r" values="24;32;24" dur="2.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2.8s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Lure Esca Solid Core -->
+      <circle cx="94" cy="24" r="6" fill="#e0a33a">
+        <animate attributeName="fill" values="#e0a33a;#f0b249;#e0a33a" dur="2.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="92.5" cy="22.5" r="2" fill="#e9e4d4"/>
+    </g>
+
+    <!-- Anglerfish Anatomy -->
+    <path d="M 20 65 C 32 54, 58 52, 76 60 C 85 64, 84 76, 70 80 C 50 84, 28 80, 16 72 Z" fill="#142824" stroke="#8fa8a0" stroke-width="2"/>
+    <!-- Translucent fang teeth -->
+    <path d="M 68 62 L 70 68 L 74 64 L 76 70 L 79 66" stroke="#e9e4d4" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+    <!-- Deep sea eye -->
+    <circle cx="50" cy="62" r="2.5" fill="#8fa8a0"/>
+    <!-- Ventral fin -->
+    <path d="M 32 79 C 28 89, 20 88, 22 81" fill="#1f3b36" stroke="#8fa8a0" stroke-width="1.2"/>
+  </g>
+
+  <!-- Typography & Subtitle -->
+  <g transform="translate(290, 78)">
+    <text x="0" y="32" font-family="'Fraunces', Georgia, serif" font-size="38" font-weight="700" letter-spacing="4" fill="#e9e4d4">LANTERNFISH</text>
+    <text x="3" y="60" font-family="'IBM Plex Mono', Consolas, monospace" font-size="13" font-weight="600" letter-spacing="2.5" fill="#e0a33a">CYBER DECEPTION &amp; INTRUDER TRACING PLATFORM</text>
+    <text x="4" y="84" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11" fill="#8fa8a0" letter-spacing="1">Simulated Network &bull; Tripwire Lures &bull; Reconstructed Trajectory &bull; AI Incident Forensics</text>
+  </g>
+
+  <!-- Status Chip Top Right -->
+  <g transform="translate(730, 24)">
+    <rect width="140" height="26" rx="2" fill="#142824" stroke="#1f3b36" stroke-width="1"/>
+    <circle cx="14" cy="13" r="4" fill="#e0a33a">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="26" y="17" font-family="'IBM Plex Mono', monospace" font-size="9.5" font-weight="600" letter-spacing="0.8" fill="#8fa8a0">GRID ARMED &bull; 100%</text>
+  </g>
+</svg>
