@@ -122,6 +122,23 @@
       }
     });
 
+    // Keyboard shortcuts (S = Simulate, Space = Pause/Resume, R = Reset)
+    window.addEventListener('keydown', (e) => {
+      // Don't trigger if typing in an input or select
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+      if (e.code === 'KeyS' && !btnStart.disabled) {
+        e.preventDefault();
+        startSimulation();
+      } else if (e.code === 'Space' && !btnPause.disabled) {
+        e.preventDefault();
+        togglePause();
+      } else if (e.code === 'KeyR') {
+        e.preventDefault();
+        resetSimulation();
+      }
+    });
+
     modalCloseBtn.addEventListener('click', () => {
       nodeModal.close();
     });
