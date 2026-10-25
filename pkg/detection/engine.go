@@ -53,6 +53,11 @@ func (e *Engine) ProcessEvent(evt model.Event) []model.Alert {
 				alert.TargetHostname = dstNode.Hostname
 			}
 
+			// Enrich with MITRE ATT&CK definition
+			mitreDef := model.GetMitreDefinition(alert.MitreTechnique)
+			alert.MitreTactic = mitreDef.Tactic
+			alert.MitreURL = mitreDef.URL
+
 			triggered = append(triggered, *alert)
 			e.alerts = append(e.alerts, *alert)
 		}
