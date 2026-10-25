@@ -2,7 +2,6 @@ package reconstruction
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/ankush-dev-eng/lanternfish/pkg/model"
 )
@@ -124,9 +123,17 @@ func ReconstructPath(graph *model.NetworkGraph, events []model.Event, alerts []m
 			hops = append(hops, hop)
 
 			// Record node visits
-			if _, seen := nodesVisitedMap[evt.TargetNode]; !seen {
-				nodesVisitedMap[evt.TargetNode] = struct{}{}
-				nodesVisitedList = append(nodesVisitedList, evt.TargetNode)
+			if evt.SourceNode != "" {
+				if _, seen := nodesVisitedMap[evt.SourceNode]; !seen {
+					nodesVisitedMap[evt.SourceNode] = struct{}{}
+					nodesVisitedList = append(nodesVisitedList, evt.SourceNode)
+				}
+			}
+			if evt.TargetNode != "" {
+				if _, seen := nodesVisitedMap[evt.TargetNode]; !seen {
+					nodesVisitedMap[evt.TargetNode] = struct{}{}
+					nodesVisitedList = append(nodesVisitedList, evt.TargetNode)
+				}
 			}
 			currentLoc = evt.TargetNode
 		}
