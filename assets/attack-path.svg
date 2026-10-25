@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 200" width="100%" height="200" style="background:#0b1517;border-radius:6px;border:1px solid #1f3b36;overflow:hidden">
+  <defs>
+    <radialGradient id="amberGlowLure" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e0a33a" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#e0a33a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#0b1517" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="24" y="32" font-family="'Fraunces', Georgia, serif" font-size="14" font-weight="700" fill="#e9e4d4">DECEPTION &amp; TRACING PIPELINE &bull; ADVERSARY TRAVERSAL</text>
+  <text x="24" y="48" font-family="'IBM Plex Mono', monospace" font-size="9.5" fill="#8fa8a0">ATT&amp;CK Matrix Kill-Chain Reconstruction &amp; Tripwire Bait Interception</text>
+
+  <!-- Connective Traversal Path with Traveling Animated Particle -->
+  <g stroke="#1f3b36" stroke-width="2" fill="none">
+    <path d="M 110 120 L 290 120 L 470 120 L 650 120 L 780 120"/>
+  </g>
+
+  <!-- Active Intrusion Pulse Trail -->
+  <path d="M 110 120 L 470 120" stroke="#c2553a" stroke-width="2.5" fill="none" stroke-dasharray="8 4">
+    <animate attributeName="stroke-dashoffset" values="36;0" dur="2s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- Traveling Attacker Particle -->
+  <circle r="4.5" fill="#e0a33a">
+    <animateMotion path="M 110 120 L 290 120 L 470 120 L 650 120" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Stage 1: Patient Zero -->
+  <g transform="translate(110, 120)">
+    <circle r="22" fill="#142824" stroke="#c2553a" stroke-width="2"/>
+    <text y="4" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="700" fill="#e9e4d4" text-anchor="middle">P0</text>
+    <text y="38" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="#e9e4d4" text-anchor="middle">ws-dev-02</text>
+    <text y="50" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#8fa8a0" text-anchor="middle">Initial Foothold</text>
+  </g>
+
+  <!-- Stage 2: Lateral Pivot -->
+  <g transform="translate(290, 120)">
+    <circle r="20" fill="#142824" stroke="#1f3b36" stroke-width="2"/>
+    <text y="4" font-family="'IBM Plex Mono', monospace" font-size="9.5" font-weight="700" fill="#e9e4d4" text-anchor="middle">HOP 1</text>
+    <text y="38" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="#e9e4d4" text-anchor="middle">api-gw-01</text>
+    <text y="50" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#8fa8a0" text-anchor="middle">Internal Pivot</text>
+  </g>
+
+  <!-- Stage 3: Decoy Lure Tripped (Pulsing Glow) -->
+  <g transform="translate(470, 120)">
+    <circle r="32" fill="url(#amberGlowLure)">
+      <animate attributeName="r" values="26;36;26" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="20" fill="#332714" stroke="#e0a33a" stroke-width="2.5"/>
+    <text y="4" font-family="'IBM Plex Mono', monospace" font-size="12" text-anchor="middle">🎣</text>
+    <text y="38" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="700" fill="#e0a33a" text-anchor="middle">passwords.xlsx</text>
+    <text y="50" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#e0a33a" text-anchor="middle">Tripwire Triggered</text>
+  </g>
+
+  <!-- Stage 4: Alert & MITRE Correlation -->
+  <g transform="translate(650, 120)">
+    <circle r="20" fill="#142824" stroke="#c2553a" stroke-width="2"/>
+    <text y="4" font-family="'IBM Plex Mono', monospace" font-size="9.5" font-weight="700" fill="#c2553a" text-anchor="middle">ALERT</text>
+    <text y="38" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="#e9e4d4" text-anchor="middle">T1083 / T1078</text>
+    <text y="50" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#8fa8a0" text-anchor="middle">99% Confidence</text>
+  </g>
+
+  <!-- Stage 5: Containment & Report -->
+  <g transform="translate(780, 120)">
+    <rect x="-24" y="-18" width="48" height="36" rx="2" fill="#1f3b36" stroke="#8fa8a0" stroke-width="1.5"/>
+    <text y="4" font-family="'IBM Plex Mono', monospace" font-size="9" font-weight="700" fill="#e9e4d4" text-anchor="middle">DFIR</text>
+    <text y="38" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="#e9e4d4" text-anchor="middle">Containment</text>
+    <text y="50" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#8fa8a0" text-anchor="middle">AI / Playbook</text>
+  </g>
+</svg>
