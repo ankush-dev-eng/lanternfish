@@ -118,6 +118,20 @@ func (s *Server) handleReset(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"status":"reset","message":"Simulation, alerts, and decoys reinitialized"}`))
 }
 
+func (s *Server) handleGetTrace(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	events := s.bus.GetEvents()
+	alerts := s.detector.GetAlerts()
+	path := reconstruction.ReconstructPath(s.graph, events, alerts)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(path)
+}
+
 func (s *Server) compileIncidentReport() model.IncidentReport {
 	events := s.bus.GetEvents()
 	alerts := s.detector.GetAlerts()

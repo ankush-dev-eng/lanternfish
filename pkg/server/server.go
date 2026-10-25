@@ -62,6 +62,7 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/stream", s.handleSSE)
 	s.mux.HandleFunc("/api/simulate", s.handleSimulate)
 	s.mux.HandleFunc("/api/reset", s.handleReset)
+	s.mux.HandleFunc("/api/trace", s.handleGetTrace)
 	s.mux.HandleFunc("/report", s.handleGetReportHTML)
 
 	// Embedded Static UI files

@@ -66,6 +66,7 @@ func main() {
 
 	// 5. Simulation Engine
 	simEngine := simulator.NewEngine(bus, decoys, detector)
+	simEngine.SetGraph(graph)
 
 	// 6. Sub-filesystem for embedded static UI
 	staticFS, err := fs.Sub(lanternfish.WebFS, "web")

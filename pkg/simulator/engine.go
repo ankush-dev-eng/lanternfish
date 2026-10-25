@@ -9,6 +9,7 @@ import (
 	"github.com/ankush-dev-eng/lanternfish/pkg/decoy"
 	"github.com/ankush-dev-eng/lanternfish/pkg/eventbus"
 	"github.com/ankush-dev-eng/lanternfish/pkg/model"
+	"github.com/ankush-dev-eng/lanternfish/pkg/reconstruction"
 )
 
 // DetectionEngineHook defines an interface for processing events synchronously as they occur.
@@ -22,6 +23,7 @@ type Engine struct {
 	bus          *eventbus.Bus
 	decoys       *decoy.Registry
 	detector     DetectionEngineHook
+	graph        *model.NetworkGraph
 	state        model.SimulationState
 	cancelFn     context.CancelFunc
 	pauseChan    chan struct{}
@@ -47,6 +49,13 @@ func NewEngine(bus *eventbus.Bus, decoys *decoy.Registry, detector DetectionEngi
 			TotalSteps:      len(GetScenarioSteps(model.ScenarioStealthy)),
 		},
 	}
+}
+
+// SetGraph binds the network graph for dynamic path reconstruction.
+func (e *Engine) SetGraph(graph *model.NetworkGraph) {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	e.graph = graph
 }
 
 // SetDetector allows late binding of the detection engine.
@@ -224,6 +233,7 @@ func (e *Engine) runSimulation(ctx context.Context, steps []model.SimulationStep
 		var newAlerts []model.Alert
 		e.mu.RLock()
 		det := e.detector
+		graph := e.graph
 		e.mu.RUnlock()
 
 		if det != nil {
@@ -233,11 +243,28 @@ func (e *Engine) runSimulation(ctx context.Context, steps []model.SimulationStep
 			}
 		}
 
+		// Dynamically reconstruct attacker trajectory if network topology is bound
+		var currentPath *model.AttackerPath
+		if graph != nil {
+			var allAlerts []model.Alert
+			if ap, ok := det.(interface{ GetAlerts() []model.Alert }); ok {
+				allAlerts = ap.GetAlerts()
+			}
+			p := reconstruction.ReconstructPath(graph, e.bus.GetEvents(), allAlerts)
+			currentPath = &p
+			e.bus.PublishPath(p)
+		}
+
 		// Update state counters
 		e.mu.Lock()
 		e.state.CurrentStep = i + 1
 		e.state.ActiveAttackerAt = step.TargetNode
-		if step.EventType == model.EventLateralHop {
+		if currentPath != nil {
+			e.state.HopsCount = len(currentPath.Hops)
+			if currentPath.PatientZeroID != "" {
+				e.state.PatientZeroNode = currentPath.PatientZeroID
+			}
+		} else if step.EventType == model.EventLateralHop {
 			e.state.HopsCount++
 		}
 		if len(newAlerts) > 0 {
