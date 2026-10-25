@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LANTERNFISH — Cyber Deception &amp; Intruder Tracing</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400&family=IBM+Plex+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="field-noise" aria-hidden="true"></div>
+
+  <!-- Top Instrument Navigation Bar -->
+  <header class="instrument-header">
+    <div class="brand-group">
+      <img src="/assets/logo.svg" alt="LANTERNFISH Lure Logo" class="brand-logo" width="220" height="50">
+      <div class="system-status">
+        <span class="status-dot pulse-amber" id="gridStatusDot"></span>
+        <span class="status-label" id="gridStatusText">GRID ARMED &bull; DECOYS ACTIVE</span>
+      </div>
+    </div>
+
+    <!-- Simulation & Operator Control Bar -->
+    <div class="control-console">
+      <div class="control-item">
+        <label for="scenarioSelect">SCENARIO</label>
+        <select id="scenarioSelect" class="instrument-select">
+          <option value="stealthy">APT Stealthy Intrusion (Phishing &rarr; DB)</option>
+          <option value="noisy">Aggressive DMZ Spray &amp; Recon</option>
+          <option value="insider">Off-Hours Rogue Insider Analyst</option>
+        </select>
+      </div>
+
+      <div class="control-item">
+        <label for="speedSelect">SPEED</label>
+        <select id="speedSelect" class="instrument-select">
+          <option value="0.5">0.5x Slow</option>
+          <option value="1.0" selected>1.0x Normal</option>
+          <option value="2.0">2.0x Fast</option>
+          <option value="5.0">5.0x Blitz</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button id="btnStart" class="btn btn-primary" title="Initiate simulated intrusion">
+          <span class="btn-icon">&#9658;</span> SIMULATE
+        </button>
+        <button id="btnPause" class="btn btn-secondary" disabled title="Pause or resume execution">
+          PAUSE
+        </button>
+        <button id="btnReset" class="btn btn-secondary" title="Reset all decoys, alerts and traces">
+          RESET
+        </button>
+      </div>
+
+      <!-- Operator Only Toggle -->
+      <div class="operator-toggle-container">
+        <label class="switch-label" title="Reveal hidden tripwires and decoy assets">
+          <input type="checkbox" id="toggleRevealDecoys">
+          <span class="switch-slider"></span>
+          <span class="switch-text">REVEAL DECOYS</span>
+        </label>
+      </div>
+
+      <!-- Report Export Actions -->
+      <div class="export-group">
+        <a href="/api/report.md" target="_blank" class="btn btn-outline" download="lanternfish-report.md" title="Download Markdown dossier">.MD</a>
+        <a href="/api/report.json" target="_blank" class="btn btn-outline" download="lanternfish-report.json" title="Download JSON dossier">.JSON</a>
+        <a href="/report" target="_blank" class="btn btn-outline" title="Printable HTML incident dossier">REPORT</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Metrics Telemetry HUD -->
+  <section class="telemetry-hud" aria-label="Incident Telemetry HUD">
+    <div class="hud-card">
+      <div class="hud-label">TIME TO DETECT (TTD)</div>
+      <div class="hud-value" id="hudTTD">--</div>
+      <div class="hud-sub">First decoy tripwire trigger</div>
+    </div>
+    <div class="hud-card">
+      <div class="hud-label">HOPS TRACED</div>
+      <div class="hud-value" id="hudHops">0</div>
+      <div class="hud-sub" id="hudPatientZero">Patient Zero: None</div>
+    </div>
+    <div class="hud-card">
+      <div class="hud-label">DECOYS TRIGGERED</div>
+      <div class="hud-value" id="hudDecoys">0 / 10</div>
+      <div class="hud-sub">Bait assets actively engaged</div>
+    </div>
+    <div class="hud-card">
+      <div class="hud-label">ALERTS TRIGGERED</div>
+      <div class="hud-value" id="hudAlerts">0</div>
+      <div class="hud-sub" id="hudSeverityMax">Max Severity: None</div>
+    </div>
+    <div class="hud-card">
+      <div class="hud-label">ADVERSARY VECTOR</div>
+      <div class="hud-value text-amber" id="hudActor">STANDBY</div>
+      <div class="hud-sub" id="hudLocation">Location: Awaiting Ingress</div>
+    </div>
+  </section>
+
+  <!-- Main Workstation Grid -->
+  <main class="workbench-grid">
+    <!-- Left Column: Canvas Network Topology & Map Controls -->
+    <section class="panel canvas-panel" aria-label="Network Topology View">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="panel-indicator"></span>
+          SIMULATED ENTERPRISE TOPOLOGY &bull; BATHYMETRIC NETWORK LINK
+        </div>
+        <div class="canvas-legend">
+          <span class="legend-item"><span class="legend-dot dot-gw"></span> Gateway</span>
+          <span class="legend-item"><span class="legend-dot dot-web"></span> Web/App</span>
+          <span class="legend-item"><span class="legend-dot dot-db"></span> Database</span>
+          <span class="legend-item"><span class="legend-dot dot-ws"></span> Workstation</span>
+          <span class="legend-item"><span class="legend-dot dot-decoy"></span> Decoy / Bait</span>
+        </div>
+      </div>
+
+      <div class="canvas-container" id="canvasContainer">
+        <canvas id="networkCanvas"></canvas>
+        <div id="nodeTooltip" class="node-tooltip" style="display: none;"></div>
+      </div>
+
+      <div class="canvas-footer">
+        <span class="footer-hint">Click or hover any node for OS, services, and live decoy tripwire status. Zoom &amp; drag to explore depth zones.</span>
+        <button id="btnCenterGraph" class="btn btn-xs">RE-CENTER TOPOLOGY</button>
+      </div>
+    </section>
+
+    <!-- Right Column: Tabbed Intelligence Panels -->
+    <aside class="panel intel-panel" aria-label="Security Intelligence Feed">
+      <div class="tab-header">
+        <button class="tab-btn active" data-tab="tabAlerts">ALERTS (<span id="tabAlertCount">0</span>)</button>
+        <button class="tab-btn" data-tab="tabDecoys">DECOYS (<span id="tabDecoyCount">10</span>)</button>
+        <button class="tab-btn" data-tab="tabTimeline">TIMELINE</button>
+        <button class="tab-btn" data-tab="tabDossier">DOSSIER</button>
+      </div>
+
+      <!-- Tab 1: Live Alert Feed -->
+      <div class="tab-content active" id="tabAlerts">
+        <div class="feed-container" id="alertFeedContainer">
+          <div class="empty-state">
+            <div class="empty-icon">&#10059;</div>
+            <div class="empty-title">ALL TRIPWIRES ARMED</div>
+            <div class="empty-desc">No deceptive tripwires or anomalous hops detected yet. Launch a simulation to initiate telemetry ingestion.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Decoy Inventory -->
+      <div class="tab-content" id="tabDecoys">
+        <div class="decoy-filter-notice" id="decoyMaskNotice">
+          <strong>OPERATOR MODE:</strong> Showing all digital assets. Toggle <em>"REVEAL DECOYS"</em> above to spotlight hidden lures and tripwire tokens.
+        </div>
+        <div class="feed-container" id="decoyListContainer">
+          <!-- Populated dynamically via app.js -->
+        </div>
+      </div>
+
+      <!-- Tab 3: Kill-Chain Timeline -->
+      <div class="tab-content" id="tabTimeline">
+        <div class="feed-container timeline-container" id="timelineListContainer">
+          <div class="empty-state">
+            <div class="empty-title">TIMELINE IDLE</div>
+            <div class="empty-desc">Incident checkpoints will stream here categorized by cyber kill-chain progression stages.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Incident Dossier & Containment -->
+      <div class="tab-content" id="tabDossier">
+        <div class="dossier-container" id="dossierContainer">
+          <div class="dossier-section">
+            <div class="dossier-heading">INTELLIGENCE SUMMARY</div>
+            <div class="dossier-body" id="dossierExecSummary">
+              Awaiting intrusion telemetry. Launch simulation to compile incident dossier.
+            </div>
+            <div class="dossier-badge" id="dossierModelBadge">MODEL: DETERMINISTIC DFIR</div>
+          </div>
+
+          <div class="dossier-section">
+            <div class="dossier-heading">ROOT CAUSE ANALYSIS</div>
+            <div class="dossier-body" id="dossierRootCause">
+              Initial compromise vectors and privilege escalations will be diagnosed here.
+            </div>
+          </div>
+
+          <div class="dossier-section">
+            <div class="dossier-heading">RECOMMENDED CONTAINMENT PLAYBOOK</div>
+            <div id="dossierRecommendations">
+              <div class="rec-empty">No containment actions required currently.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Node Inspection Drawer / Modal -->
+  <dialog id="nodeModal" class="node-modal">
+    <div class="modal-header">
+      <h3 id="modalNodeTitle">NODE INSPECTION</h3>
+      <button id="modalCloseBtn" class="btn-close" aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body" id="modalNodeBody">
+      <!-- Dynamic details rendered here -->
+    </div>
+  </dialog>
+
+  <!-- Scripts -->
+  <script src="/canvas.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
