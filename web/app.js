@@ -45,9 +45,12 @@
   const hudLocation = document.getElementById('hudLocation');
   const hudPatientZero = document.getElementById('hudPatientZero');
   const hudSeverityMax = document.getElementById('hudSeverityMax');
+  const hudDwell = document.getElementById('hudDwell');
+  const hudVelocity = document.getElementById('hudVelocity');
 
   const tabAlertCount = document.getElementById('tabAlertCount');
   const tabDecoyCount = document.getElementById('tabDecoyCount');
+  const tabTimelineCount = document.getElementById('tabTimelineCount');
   const alertFeedContainer = document.getElementById('alertFeedContainer');
   const decoyListContainer = document.getElementById('decoyListContainer');
   const timelineListContainer = document.getElementById('timelineListContainer');
@@ -90,6 +93,10 @@
         }
         if (targetId === 'tabDossier') {
           fetchDossier();
+        } else if (targetId === 'tabDecoys') {
+          fetchDecoys();
+        } else if (targetId === 'tabTimeline') {
+          fetchTimeline();
         }
       });
     });
@@ -192,6 +199,7 @@
         const alert = JSON.parse(e.data);
         state.alerts.unshift(alert);
         renderAlerts();
+        fetchDecoys();
         updateHUD();
       } catch (err) {
         console.error('Error parsing SSE alert:', err);
@@ -208,6 +216,9 @@
         const simState = JSON.parse(e.data);
         state.simState = simState;
         updateSimulationUI(simState);
+        if (simState.decoys_triggered > 0 || simState.status === 'completed') {
+          fetchDecoys();
+        }
         updateHUD();
       } catch (err) {
         console.error('Error parsing SSE state:', err);
@@ -219,6 +230,13 @@
         const path = JSON.parse(e.data);
         state.attackerPath = path;
         canvas.setPath(path);
+        if (path.hops && path.hops.length > 0) {
+          hudHops.textContent = path.hops.length;
+          if (path.patient_zero_hostname) {
+            hudPatientZero.textContent = `Patient Zero: ${path.patient_zero_hostname}`;
+          }
+        }
+        updateDwellVelocity(path);
       } catch (err) {
         console.error('Error parsing SSE path:', err);
       }
@@ -294,6 +312,13 @@
       hudActor.textContent = 'STANDBY';
       hudLocation.textContent = 'Location: Awaiting Ingress';
       hudSeverityMax.textContent = 'Max Severity: None';
+      if (hudDwell) hudDwell.textContent = '--';
+      if (hudVelocity) {
+        hudVelocity.textContent = 'Containment: Armed';
+        hudVelocity.className = 'hud-sub';
+      }
+      if (tabTimelineCount) tabTimelineCount.textContent = '0';
+      if (tabAlertCount) tabAlertCount.textContent = '0';
     } catch (err) {
       console.error('Reset failed:', err);
     }
@@ -308,11 +333,36 @@
       hudActor.textContent = sim.scenario_id.toUpperCase();
       hudLocation.textContent = `At: ${sim.active_attacker_at || 'Perimeter'}`;
       hudPatientZero.textContent = `Patient Zero: ${sim.patient_zero_node || 'None'}`;
+      if (hudVelocity) {
+        hudVelocity.textContent = 'Adversary in Motion';
+        hudVelocity.className = 'hud-sub text-rust';
+      }
     } else if (sim.status === 'completed') {
       btnStart.disabled = false;
       btnPause.disabled = true;
       hudLocation.textContent = `Completed (${sim.total_steps} steps)`;
+      if (hudVelocity) {
+        hudVelocity.textContent = 'Containment: Isolated';
+        hudVelocity.className = 'hud-sub text-amber';
+      }
+      fetchDecoys();
+      fetchTimeline();
+      fetchTrace();
       fetchDossier();
+    }
+  }
+
+  function updateDwellVelocity(path) {
+    if (!path) return;
+    if (hudDwell && path.dwell_time_seconds > 0) {
+      hudDwell.textContent = `${path.dwell_time_seconds.toFixed(1)}s`;
+    }
+    const hops = path.hops ? path.hops.length : 0;
+    const mins = Math.max(path.dwell_time_seconds || 1, 1) / 60;
+    const vel = (hops / mins).toFixed(1);
+    if (hudVelocity && hops > 0) {
+      hudVelocity.textContent = `${vel} hops/min`;
+      hudVelocity.className = 'hud-sub text-amber';
     }
   }
 
@@ -326,15 +376,26 @@
     }
 
     // Hops
-    hudHops.textContent = state.simState.hops_count || 0;
+    hudHops.textContent = state.simState.hops_count || (state.attackerPath ? state.attackerPath.hops.length : 0);
 
     // Decoys
-    const tripped = state.decoys.filter((d) => d.triggered).length;
-    hudDecoys.textContent = `${tripped} / ${state.decoys.length}`;
+    const tripped = Math.max(
+      state.decoys.filter((d) => d.triggered).length,
+      state.simState.decoys_triggered || 0
+    );
+    hudDecoys.textContent = `${tripped} / ${state.decoys.length || 10}`;
+    if (tripped > 0) {
+      hudDecoys.className = 'hud-value text-amber';
+    } else {
+      hudDecoys.className = 'hud-value';
+    }
 
     // Alerts
     hudAlerts.textContent = state.alerts.length;
     tabAlertCount.textContent = state.alerts.length;
+    if (tabTimelineCount) {
+      tabTimelineCount.textContent = state.timeline.length;
+    }
 
     // Max Severity
     let maxSev = 'None';
@@ -449,6 +510,44 @@
         </div>`;
     }
     decoyListContainer.innerHTML = html;
+  }
+
+  // Fetch Decoys
+  async function fetchDecoys() {
+    try {
+      const res = await fetch('/api/decoys');
+      if (res.ok) {
+        state.decoys = await res.json();
+        renderDecoys();
+        tabDecoyCount.textContent = state.decoys.length;
+        if (canvas) {
+          canvas.setTriggeredDecoys(state.decoys);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch decoys:', err);
+    }
+  }
+
+  // Fetch Trajectory Trace
+  async function fetchTrace() {
+    try {
+      const res = await fetch('/api/trace');
+      if (res.ok) {
+        const path = await res.json();
+        state.attackerPath = path;
+        if (canvas) canvas.setPath(path);
+        if (path.hops && path.hops.length > 0) {
+          hudHops.textContent = path.hops.length;
+          if (path.patient_zero_hostname) {
+            hudPatientZero.textContent = `Patient Zero: ${path.patient_zero_hostname}`;
+          }
+        }
+        updateDwellVelocity(path);
+      }
+    } catch (err) {
+      console.error('Failed to fetch trace:', err);
+    }
   }
 
   // Fetch & Render Timeline
