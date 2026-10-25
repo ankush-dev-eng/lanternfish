@@ -88,12 +88,12 @@ class NetworkCanvas {
     }
 
     const rect = this.canvas.getBoundingClientRect();
-    const graphWidth = maxX - minX + 160;
-    const graphHeight = maxY - minY + 160;
+    const graphWidth = maxX - minX + 220;
+    const graphHeight = maxY - minY + 220;
 
     const scaleX = rect.width / graphWidth;
     const scaleY = rect.height / graphHeight;
-    this.scale = Math.min(Math.max(Math.min(scaleX, scaleY) * 0.9, 0.6), 1.4);
+    this.scale = Math.min(Math.max(Math.min(scaleX, scaleY) * 0.92, 0.55), 1.3);
 
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
@@ -108,6 +108,7 @@ class NetworkCanvas {
     // Mouse drag pan
     this.canvas.addEventListener('mousedown', (e) => {
       this.isDragging = true;
+      this.canvas.style.cursor = 'grabbing';
       this.dragStartX = e.clientX - this.panX;
       this.dragStartY = e.clientY - this.panY;
     });
@@ -123,6 +124,7 @@ class NetworkCanvas {
 
     window.addEventListener('mouseup', () => {
       this.isDragging = false;
+      this.canvas.style.cursor = this.hoveredNode ? 'pointer' : 'grab';
     });
 
     // Zoom
@@ -152,6 +154,7 @@ class NetworkCanvas {
   handleMouseMove(e) {
     const node = this.getNodeAtMouse(e);
     this.hoveredNode = node;
+    this.canvas.style.cursor = node ? 'pointer' : 'grab';
 
     if (node && this.tooltipEl) {
       const isRevealedDecoy = this.revealDecoys && node.is_decoy;
@@ -462,8 +465,11 @@ class NetworkCanvas {
   }
 
   getNodeGlyph(node) {
-    if ((this.revealDecoys && node.is_decoy) || this.triggeredDecoyNodeIDs.has(node.id)) {
-      return '🎣';
+    if (this.triggeredDecoyNodeIDs.has(node.id)) {
+      return 'TRP';
+    }
+    if (this.revealDecoys && node.is_decoy) {
+      return 'LUR';
     }
     switch (node.role) {
       case 'gateway': return 'GW';
