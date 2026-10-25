@@ -41,6 +41,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Custom Nautical Deep-Sea Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-abyss-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-kelp);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-kelp-light);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-kelp) var(--color-abyss-deep);
+}
+
 /* Subtle physical instrument grain noise */
 .field-noise {
   position: fixed;
@@ -178,6 +198,14 @@ body {
   cursor: not-allowed;
 }
 
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
 .btn-primary {
   background: var(--color-lure-amber);
   color: var(--color-abyss);
@@ -186,6 +214,7 @@ body {
 
 .btn-primary:hover:not(:disabled) {
   background: #f0b249;
+  box-shadow: 0 0 10px rgba(224, 163, 58, 0.35);
 }
 
 .btn-secondary {
@@ -196,6 +225,7 @@ body {
 
 .btn-secondary:hover:not(:disabled) {
   border-color: var(--color-mist);
+  background: var(--color-kelp);
 }
 
 .btn-outline {
@@ -208,6 +238,20 @@ body {
 .btn-outline:hover {
   color: var(--color-foam);
   border-color: var(--color-foam);
+  background: rgba(233, 228, 212, 0.05);
+}
+
+.btn-report {
+  border-color: rgba(224, 163, 58, 0.45);
+  color: var(--color-lure-amber);
+  font-weight: 700;
+}
+
+.btn-report:hover {
+  border-color: var(--color-lure-amber);
+  background: rgba(224, 163, 58, 0.15);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(224, 163, 58, 0.25);
 }
 
 .btn-xs {
@@ -297,7 +341,7 @@ body {
    ========================================================================== */
 .telemetry-hud {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
   gap: 1px;
   background: var(--color-kelp);
   border-bottom: var(--border-hairline);
@@ -846,6 +890,7 @@ body {
 
 /* Tooltip and Modal */
 .node-tooltip {
+  display: none;
   position: absolute;
   pointer-events: none;
   background: var(--color-abyss-deep);
@@ -928,6 +973,12 @@ body {
 /* ==========================================================================
    Responsiveness & Accessibility
    ========================================================================== */
+@media (max-width: 1200px) {
+  .telemetry-hud {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 1080px) {
   .workbench-grid {
     grid-template-columns: 1fr;
@@ -954,6 +1005,12 @@ body {
   }
   .canvas-legend {
     display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .telemetry-hud {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
