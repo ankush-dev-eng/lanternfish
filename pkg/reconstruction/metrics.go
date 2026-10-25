@@ -6,10 +6,10 @@ import (
 
 // TraversalVelocityMetrics measures the operational pace of an intruder's lateral movement.
 type TraversalVelocityMetrics struct {
-	TotalHops         int     `json:"total_hops"`
-	DwellSeconds      float64 `json:"dwell_seconds"`
-	HopsPerMinute     float64 `json:"hops_per_minute"`
-	VelocityCategory  string  `json:"velocity_category"` // "STEALTHY_SLOW", "STANDARD_PACED", "HIGH_VELOCITY_SPRAY"
+	TotalHops        int     `json:"total_hops"`
+	DwellSeconds     float64 `json:"dwell_seconds"`
+	HopsPerMinute    float64 `json:"hops_per_minute"`
+	VelocityCategory string  `json:"velocity_category"` // "STEALTHY_SLOW", "STANDARD_PACED", "HIGH_VELOCITY_SPRAY"
 }
 
 // CalculateHopVelocity derives velocity metrics from the reconstructed attacker path.

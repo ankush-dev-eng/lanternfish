@@ -43,3 +43,13 @@ NA — built from scratch during the hackathon.
 [Team Member 3]: Attack Scenario Scripting, MITRE ATT&CK Mapping, Incident Reporting & Documentation.
 ```
 *(307 characters)*
+
+---
+
+### 6. Live Deployment & Repository Links
+```text
+Live Web App: https://lanternfish-kappa.vercel.app/
+GitHub Repo: https://github.com/ankush-dev-eng/lanternfish
+Docker: docker run -p 8080:8080 -e PORT=8080 lanternfish:latest
+```
+*(169 characters)*

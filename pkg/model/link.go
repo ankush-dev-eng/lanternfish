@@ -4,9 +4,9 @@ package model
 type LinkType string
 
 const (
-	LinkTypeLAN       LinkType = "lan"
-	LinkTypeDMZ       LinkType = "dmz"
-	LinkTypeAdminVPN  LinkType = "admin_vpn"
+	LinkTypeLAN         LinkType = "lan"
+	LinkTypeDMZ         LinkType = "dmz"
+	LinkTypeAdminVPN    LinkType = "admin_vpn"
 	LinkTypeReplication LinkType = "replication"
 )
 

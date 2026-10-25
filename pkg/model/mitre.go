@@ -6,12 +6,12 @@ import "fmt"
 type MitreTactic string
 
 const (
-	TacticInitialAccess     MitreTactic = "Initial Access"
-	TacticDiscovery         MitreTactic = "Discovery"
-	TacticCredentialAccess  MitreTactic = "Credential Access"
-	TacticLateralMovement   MitreTactic = "Lateral Movement"
-	TacticCollection        MitreTactic = "Collection"
-	TacticExfiltration      MitreTactic = "Exfiltration"
+	TacticInitialAccess    MitreTactic = "Initial Access"
+	TacticDiscovery        MitreTactic = "Discovery"
+	TacticCredentialAccess MitreTactic = "Credential Access"
+	TacticLateralMovement  MitreTactic = "Lateral Movement"
+	TacticCollection       MitreTactic = "Collection"
+	TacticExfiltration     MitreTactic = "Exfiltration"
 )
 
 // MitreTechniqueDefinition provides authoritative metadata and documentation links.

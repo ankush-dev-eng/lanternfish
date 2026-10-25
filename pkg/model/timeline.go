@@ -6,13 +6,13 @@ import "time"
 type KillChainPhase string
 
 const (
-	PhaseInitialAccess     KillChainPhase = "Initial Access"
-	PhaseReconnaissance    KillChainPhase = "Discovery & Recon"
-	PhaseCredentialAccess  KillChainPhase = "Credential Hunting"
-	PhaseLateralMovement   KillChainPhase = "Lateral Movement"
-	PhaseDecoyInteraction  KillChainPhase = "Tripwire Engagement"
-	PhaseCollection        KillChainPhase = "Collection"
-	PhaseExfiltration      KillChainPhase = "Exfiltration Attempt"
+	PhaseInitialAccess    KillChainPhase = "Initial Access"
+	PhaseReconnaissance   KillChainPhase = "Discovery & Recon"
+	PhaseCredentialAccess KillChainPhase = "Credential Hunting"
+	PhaseLateralMovement  KillChainPhase = "Lateral Movement"
+	PhaseDecoyInteraction KillChainPhase = "Tripwire Engagement"
+	PhaseCollection       KillChainPhase = "Collection"
+	PhaseExfiltration     KillChainPhase = "Exfiltration Attempt"
 )
 
 // TimelineItem represents a human-readable, sorted, categorized incident narrative checkpoint.

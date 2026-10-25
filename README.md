@@ -1,267 +1,186 @@
-# LANTERNFISH — Cyber Deception & Intruder Tracing
+# LANTERNFISH — Cyber Deception & Intruder Tracing Platform
 
 <div align="center">
 
 ![LANTERNFISH Animated Banner](assets/banner.svg)
 
-[![Go Version](https://img.shields.io/badge/Go-1.22+-1f3b36?style=flat-square&logo=go&logoColor=e9e4d4)](https://golang.org)
-[![License](https://img.shields.io/badge/License-MIT-e0a33a?style=flat-square&color=0b1517&labelColor=e0a33a)](LICENSE)
-[![Zero 3P Deps](https://img.shields.io/badge/Dependencies-Standard%20Library%20Only-1f3b36?style=flat-square&color=8fa8a0&labelColor=1f3b36)](#tech-stack)
-[![Architecture](https://img.shields.io/badge/Architecture-In--Memory%20%2B%20SSE-0b1517?style=flat-square&color=e0a33a&labelColor=0b1517)](#architecture)
-[![MITRE ATT&CK](https://img.shields.io/badge/Detection-MITRE%20ATT%26CK-c2553a?style=flat-square&color=0b1517&labelColor=c2553a)](https://attack.mitre.org)
-[![Deployment](https://img.shields.io/badge/Deploy-Docker%20%7C%20Render-1f3b36?style=flat-square&color=e9e4d4&labelColor=1f3b36)](render.yaml)
+<br/>
 
-<p align="center">
-  <em>Like the anglerfish esca in the midnight bathyal zone, LANTERNFISH deploys glowing deceptive bait into enterprise networks — exposing whatever bites, reconstructing lateral trajectories, and generating actionable incident containment playbooks.</em>
-</p>
+[![Live Deployment](https://img.shields.io/badge/Live%20Deployment-lanternfish--kappa.vercel.app-e0a33a?style=for-the-badge&logo=vercel&logoColor=0b1517)](https://lanternfish-kappa.vercel.app/)
+[![Go Version](https://img.shields.io/badge/Go-1.22+-1f3b36?style=for-the-badge&logo=go&logoColor=e9e4d4)](https://golang.org)
+[![Zero 3P Deps](https://img.shields.io/badge/Dependencies-Standard%20Library%20Only-1f3b36?style=for-the-badge&color=8fa8a0&labelColor=1f3b36)](#6-architecture--design)
+[![MITRE ATT&CK](https://img.shields.io/badge/Detection-MITRE%20ATT%26CK-c2553a?style=for-the-badge&color=0b1517&labelColor=c2553a)](https://attack.mitre.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-e0a33a?style=for-the-badge&color=0b1517&labelColor=e0a33a)](LICENSE)
+
+<br/>
+
+> ⚡ **Live Interactive Platform:** **[https://lanternfish-kappa.vercel.app/](https://lanternfish-kappa.vercel.app/)**  
+> *Launch simulated adversary incursions, toggle operator decoy reveals, inspect real-time SSE telemetry, and generate automated AI forensic incident dossiers.*
 
 </div>
 
 ![Oceanic Divider](assets/divider.svg)
 
-## 1. Problem Statement
+## 1. Overview & Threat Context
 
-Traditional perimeter defenses and signature-based SIEMs struggle against stealthy adversaries who leverage stolen valid credentials (`T1078`), living-off-the-land techniques, and slow lateral movement. Attackers remain undetected for a median dwell time exceeding **10 days**.
+Stealthy adversaries bypass perimeter firewalls using compromised credentials (`T1078`) and living-off-the-land techniques, evading traditional detection for an average dwell time exceeding **10 days**.
 
-**LANTERNFISH** shifts the asymmetry back to defense. By seeding realistic digital decoys — honeypot files, honeytoken credentials, and unpatched decoy servers — into a monitored topology, any interaction generates a deterministic **high-confidence alert (95–99% confidence)** with virtually **zero false positives**.
+**LANTERNFISH** shifts the asymmetry back to defense. By seeding high-enticement digital lures—honeypot files, canary credentials, and decoy servers—into monitored networks, any adversary interaction triggers a deterministic **high-confidence alert (99% confidence)** with **virtually zero false positives**.
 
 ---
 
-## 2. How It Works
+## 2. Interactive Traversal & Kill-Chain Trajectory
+
+![Intrusion Traversal Pipeline](assets/attack-path.svg)
 
 ```mermaid
 flowchart LR
-    A[Initial Foothold\nPatient Zero] -->|Lateral Hop| B[Internal Network Tier]
-    B -->|Enumeration| C{Decoy Lure\nInteracted?}
+    A["Patient Zero\nInitial Foothold"] -->|Lateral Movement| B["Internal Pivot Host"]
+    B -->|Bait Interaction| C{"Decoy Lure\nTripped?"}
     C -- No --> B
-    C -- YES --> D[Tripwire Alert Triggered\nConfidence 99%]
-    D --> E[Movement Reconstructor\nPatient Zero + Hop Chain]
-    E --> F[Telemetry SSE Stream\nCanvas Trail Animation]
-    E --> G[Forensics Engine\nMarkdown / JSON / Gemini AI]
+    C -- YES --> D["Deterministic Alert\n99% Confidence"]
+    D --> E["Pathfinder Reconstructor\nPatient Zero + Hop Chain"]
+    E --> F["Live Telemetry SSE\nHTML5 Canvas Traversal"]
+    E --> G["Forensic Dossier\nGemini AI / Offline DFIR"]
 ```
 
-![Intrusion Traversal Diagram](assets/attack-path.svg)
-
-1. **Decoy Seeding:** High-enticement canary assets (`passwords.xlsx`, `backup_vault_keys.pem`, `svc_global_admin`) are seeded across corporate endpoints.
-2. **Deceptive Interception:** When an adversary accesses a decoy file or uses a honeytoken, an instrumented tripwire fires.
-3. **Trajectory Reconstruction:** The reconstruction engine traces backwards from alerts to pinpoint **Patient Zero**, calculates adversary dwell time, and stitches together every lateral hop.
-4. **Live Visualization:** Traversal paths illuminate on an interactive HTML5 Canvas with fading trails, while the lure pulses with an amber glow.
-5. **AI Incident Forensics:** Generates an executive summary, root cause analysis, and actionable containment playbook (using Google Gemini 2.5 Flash if `GEMINI_API_KEY` is provided, or a deterministic DFIR rule engine as a robust offline fallback).
+1. **Decoy Seeding:** Canary credentials (`svc_global_admin`), decoy files (`passwords_2024_master.xlsx`), and honeypot hosts are strategically deployed.
+2. **Deterministic Tripwire:** When an intruder touches a decoy asset, an alert fires instantly without signature ambiguity.
+3. **Trajectory Reconstruction:** The pathfinder engine correlates events backwards to isolate **Patient Zero**, trace every lateral pivot, and compute total attacker dwell time.
+4. **Live SSE Streaming:** Telemetry streams in real time over Server-Sent Events to the reactive HTML5 Canvas dashboard.
+5. **AI Incident Forensics:** Generates an executive summary, root-cause analysis, and containment playbook using **Google Gemini** or the built-in offline DFIR engine.
 
 ---
 
-## 3. Features & Capabilities
+## 3. Core Capabilities
 
-| Capability | Description |
-|---|---|
-| **Simulated Enterprise Topology** | 16-node multi-tier network (Perimeter DMZ, Web Tier, App Microservices, Core DB, Active Directory, Isolated Vault, Workstations). |
-| **Realistic Decoy Generator** | Seeded digital assets indistinguishable from genuine resources, including fake files, honeytoken credentials, and decoy servers. |
-| **Operator Reveal Toggle** | Single-click operator switch that reveals hidden lures and tripwire tokens with amber halos in the UI while keeping them camouflaged from adversaries. |
-| **3 Attack Scenarios** | **Stealthy APT** (phishing &rarr; DB probe), **Noisy DMZ Spray** (buffer exploit &rarr; mass lateral sweep), and **Off-Hours Insider** (rogue financial analyst). |
-| **Detection Engine** | Rules for decoy file reads, honeytoken logins, decoy host probes, abnormal lateral velocities, and external C2 exfiltration beacons. |
-| **MITRE ATT&CK Mapping** | Tagged with techniques including `T1566.001`, `T1083`, `T1078`, `T1021`, `T1046`, and `T1041`. |
-| **Path Reconstruction** | Identifies Patient Zero, total dwell time, and chronological traversal hops with forensic evidence strings. |
-| **Multi-Format Reporting** | Live downloadable reports in **Markdown (`/api/report.md`)**, **JSON (`/api/report.json`)**, and a **Print-Ready HTML view (`/report`)**. |
-| **Zero Third-Party Backend Deps** | 100% Go standard library (`net/http`, `embed`, `encoding/json`). Single self-contained binary. |
-| **Real-Time Telemetry** | Server-Sent Events (SSE) stream on `/api/stream` with heartbeats and automated reconnects. |
+| Capability | Technical Implementation |
+| :--- | :--- |
+| 🌐 **Live Deployed App** | Hosted and operational on **[Vercel](https://lanternfish-kappa.vercel.app/)** with zero setup needed. |
+| 🎣 **Active Cyber Deception** | Seeded honeytokens, canary credentials, decoy spreadsheets, and legacy hosts. |
+| 👁️ **Operator Reveal Mode** | Single-click toggle illuminating deceptive assets in glowing amber while masking them from intruders. |
+| 🗺️ **Full Trajectory Reconstruction** | Algorithmic backtracking to identify **Patient Zero**, lateral hops, and velocity metrics. |
+| 🎯 **MITRE ATT&CK Correlation** | Direct mapping to `T1566.001`, `T1083`, `T1078`, `T1021`, `T1046`, and `T1041`. |
+| 🤖 **Dual-Engine Forensics** | Instant incident dossiers powered by Google Gemini (with deterministic offline fallback). |
+| ⚡ **Zero 3P Dependencies** | 100% Go standard library (`net/http`, `embed`, `encoding/json`). Single self-contained binary. |
+| 📊 **Multi-Format Export** | Downloadable dossiers in **Markdown (`/api/report.md`)**, **JSON (`/api/report.json`)**, and **Print HTML (`/report`)**. |
 
 ---
 
-## 4. Decoy & Honeytoken Catalog
+## 4. Built-in Attack Scenarios
 
-| Tripwire ID | Decoy Name | Type | Target Host | Bait Enticement |
-|---|---|---|---|---|
-| `TRIP-FILE-PASSWORDS` | `passwords_2024_master.xlsx` | File | `ws-dev-02` | Cleartext spreadsheet containing fake root passwords and canary web beacons. |
-| `TRIP-FILE-VPNCREDS` | `vpn_creds_emergency.txt` | File | `gw-edge-01` | Plaintext OpenVPN pre-shared keys and DNS canary tokens. |
-| `TRIP-FILE-BACKUPKEYS` | `backup_vault_keys.pem` | File | `app-srv-01` | 4096-bit RSA private key granting presumed root access to immutable backup vaults. |
-| `TRIP-FILE-PAYROLL` | `payroll_Q3_exec_compensation.csv` | File | `file-share-corp` | Unrestricted executive payroll dataset with canary UUID tracking. |
-| `TRIP-FILE-AWSKEYS` | `.aws_keys.env` | File | `app-srv-02` | Production environment file containing monitored AWS honeytoken API keys. |
-| `TRIP-CRED-SVCADMIN` | `svc_global_admin` | Credential | `dc-corp-01` | High-privilege Domain Administrator account monitored by Kerberos pre-auth traps. |
-| `TRIP-CRED-DBROOT` | `db_root_backup_svc` | Credential | `db-postgres-01` | Postgres superuser role with hardcoded passwords in deceptive config files. |
-| `TRIP-CRED-SSHKEY` | `id_ed25519_bastion_deploy` | Credential | `web-prod-01` | Monitored SSH key configured to alert security bastions upon handshake. |
-| `TRIP-HOST-DBLEGACY` | `db-legacy-backup.corp` | Decoy Host | `10.10.30.91` | Simulated unpatched CentOS 7 host running vulnerable MySQL 3306 and FTP 21. |
-| `TRIP-HOST-FINARCHIVE` | `finance-share-archive.corp` | Decoy Host | `10.10.40.89` | Simulated Windows 2016 server advertising open legacy SMBv1 shares. |
+| Scenario | Vector & Progression | Key MITRE Techniques |
+| :--- | :--- | :--- |
+| **APT Stealthy Intrusion** | Phishing foothold on workstation &rarr; internal API pivot &rarr; `passwords.xlsx` tripwire &rarr; DB probe | `T1566.001`, `T1083`, `T1078` |
+| **Aggressive DMZ Spray** | External edge buffer exploit &rarr; automated subnet port sweep &rarr; legacy decoy server trip | `T1190`, `T1046`, `T1021.002` |
+| **Off-Hours Rogue Insider** | Authorized workstation &rarr; abnormal off-hours access &rarr; executive payroll canary read &rarr; C2 beacon | `T1078`, `T1083`, `T1041` |
 
 ---
 
-## 5. Architecture
+## 5. Deployment Options
 
-```
-LANTERNFISH/
-├── cmd/lanternfish/         # Main CLI application entrypoint
-│   └── main.go              # Flag parsing, signal traps, static asset serving
-├── pkg/
-│   ├── model/               # Core domain entities (Node, Decoy, Alert, Event, Path, Report)
-│   ├── network/             # 16-node enterprise topology generator & subnet layout
-│   ├── decoy/               # Seeded realistic decoy generator & thread-safe registry
-│   ├── eventbus/            # In-memory pub/sub telemetry routing & SSE broadcasting
-│   ├── simulator/           # Attack scripts (Stealthy, Noisy, Insider) & execution engine
-│   ├── detection/           # MITRE ATT&CK correlation rules & alert engine
-│   ├── reconstruction/      # Intruder pathfinder, patient-zero & dwell-time calculation
-│   ├── timeline/            # Chronological incident timeline & kill-chain phase grouping
-│   ├── narrative/           # Dual-engine narrative (Gemini AI + Deterministic DFIR)
-│   ├── report/              # JSON, Markdown, and Print-ready HTML report exporters
-│   └── server/              # net/http REST API handlers & SSE streaming endpoint
-├── web/                     # Embedded UI frontend (Zero npm / Zero build step)
-│   ├── index.html           # Semantic field-instrument dashboard layout
-│   ├── style.css            # Deep-sea nautical palette (Abyss, Kelp, Foam, Amber, Rust)
-│   ├── canvas.js            # HTML5 Canvas renderer with pan/zoom & trail animation
-│   ├── app.js               # Reactive state machine & SSE consumer
-│   └── assets/              # Handcrafted SVGs (logo, favicon)
-├── assets/                  # GitHub documentation SVGs (banner, divider, attack-path)
-├── test/                    # End-to-end integration tests
-├── Dockerfile               # Multi-stage distroless/alpine container build
-├── render.yaml              # Render one-click blueprint specification
-└── Makefile                 # Build, test, run, fmt, and vet convenience targets
-```
+### Option A: Access the Live Deployment (Instant)
 
----
+Access the live production dashboard directly in your browser:  
+👉 **[https://lanternfish-kappa.vercel.app/](https://lanternfish-kappa.vercel.app/)**
 
-## 6. Running Locally
+### Option B: Local Execution (Go 1.22+)
 
-### Prerequisites
-- **Go 1.22+** (installed and in PATH)
-
-### Quick Start
 ```bash
 # Clone the repository
 git clone https://github.com/ankush-dev-eng/lanternfish.git
 cd lanternfish
 
-# Run the server directly (serves on :8080 by default)
+# Run single-binary server (defaults to http://localhost:8080)
 go run ./cmd/lanternfish
 ```
 
-Open your browser at **[http://localhost:8080](http://localhost:8080)**.
+*(Optional: Set `GEMINI_API_KEY="your-key"` to activate Google Gemini AI incident narratives. If omitted, the built-in deterministic DFIR forensics engine activates automatically).*
 
-### Running with Gemini AI (Optional)
-```bash
-# Windows PowerShell
-$env:GEMINI_API_KEY="your-api-key-here"
-go run ./cmd/lanternfish
-
-# Linux / macOS
-export GEMINI_API_KEY="your-api-key-here"
-go run ./cmd/lanternfish
-```
-*(If no API key is set, LANTERNFISH automatically activates the internal Deterministic Forensics Engine with full reporting capabilities).*
-
----
-
-## 7. Running with Docker
+### Option C: Docker Container
 
 ```bash
-# Build the container image
 docker build -t lanternfish:latest .
-
-# Run container on port 8080
 docker run -p 8080:8080 -e PORT=8080 lanternfish:latest
 ```
 
----
+### Option D: Cloud Deploy (Render Blueprint)
 
-## 8. Deployment on Render / Cloud
-
-A `render.yaml` blueprint is included in the repository:
-
-1. Connect your GitHub repository to [Render.com](https://render.com).
-2. Select **New &rarr; Blueprint** and point it to `render.yaml`.
-3. Set the optional `GEMINI_API_KEY` environment variable in the dashboard if desired.
-4. Deploy! The health probe at `/healthz` will automatically confirm service availability.
+Connect repository to [Render.com](https://render.com) using the included `render.yaml` specification for one-click container deployment.
 
 ---
 
-## 9. REST API Reference
+## 6. Architecture & Design
+
+```text
+LANTERNFISH/
+├── cmd/lanternfish/      # Entrypoint & CLI runtime
+├── pkg/
+│   ├── model/            # Nodes, Decoys, Alerts, Events, Paths, Reports
+│   ├── network/          # 16-node multi-tier simulated enterprise topology
+│   ├── decoy/            # Thread-safe decoy registry & canary asset generator
+│   ├── simulator/        # Attack scenario execution engine (Stealthy, Noisy, Insider)
+│   ├── detection/        # MITRE ATT&CK correlation & high-confidence alert engine
+│   ├── reconstruction/   # Pathfinder backtracking, Patient Zero & dwell time
+│   ├── narrative/        # Dual narrative engine (Gemini AI + Deterministic DFIR)
+│   ├── report/           # JSON, Markdown, and Print-ready HTML report exporters
+│   └── server/           # REST API routes & SSE telemetry broadcast
+└── web/                  # Embedded UI (HTML5 Canvas, SSE consumer, Deep-Sea Design)
+```
+
+- **Aesthetic Direction:** Deep-sea oceanographic instrument styling using the **Abyss** (`#0b1517`), **Kelp** (`#1f3b36`), **Foam** (`#e9e4d4`), **Lure Amber** (`#e0a33a`), and **Coral Rust** (`#c2553a`) color palette.
+- **Zero Third-Party Deps:** Crafted entirely with Go's standard library to guarantee rapid compilation, zero supply-chain vulnerabilities, and sub-15ms cold start times.
+
+---
 
 <details>
-<summary><strong>Click to expand API endpoints documentation</strong></summary>
+<summary><strong>🔍 Click to expand REST API Reference</strong></summary>
 
-### `GET /healthz`
-Health check endpoint for container orchestrators.
-- **Response:** `200 OK`
-```json
-{
-  "status": "ok",
-  "app": "lanternfish",
-  "version": "1.0.0"
-}
-```
+<br/>
 
-### `GET /api/network`
-Returns the simulated enterprise topology (nodes, links, subnets, and positions).
+| Endpoint | Method | Description |
+| :--- | :--- | :--- |
+| `/healthz` | `GET` | Health probe for orchestrators and container healthchecks |
+| `/api/network` | `GET` | Simulated enterprise topology (nodes, links, subnet boundaries) |
+| `/api/decoys` | `GET` | Full inventory of seeded tripwires, canary files, and decoy hosts |
+| `/api/alerts` | `GET` | Security alerts generated during active incursions |
+| `/api/timeline` | `GET` | Chronological kill-chain progression log |
+| `/api/trace` | `GET` | Traversed path coordinates and lateral hop telemetry |
+| `/api/stream` | `GET` | Live Server-Sent Events (SSE) telemetry stream |
+| `/api/simulate` | `POST` | Trigger attack scenario (`{"scenario": "stealthy\|noisy\|insider", "speed": 1.0}`) |
+| `/api/reset` | `POST` | Reset all alert states, decoys, and canvas traces |
+| `/api/report.json` | `GET` | Export incident dossier in structured JSON |
+| `/api/report.md` | `GET` | Export incident dossier in GitHub-flavored Markdown |
+| `/report` | `GET` | Standalone print-ready HTML incident dossier view |
 
-### `GET /api/decoys`
-Returns the full inventory of armed decoy assets, tripwire tokens, and activation statuses.
-
-### `GET /api/alerts`
-Returns all security detection alerts generated during the current session.
-
-### `GET /api/timeline`
-Returns the chronological incident timeline categorized by cyber kill-chain phase.
-
-### `GET /api/report.json`
-Exports the complete forensic incident report in structured JSON format.
-
-### `GET /api/report.md`
-Exports the executive summary, metrics, trajectory, and containment playbook in GitHub-flavored Markdown.
-
-### `GET /report`
-Serves a standalone, print-ready HTML incident report view with print styles.
-
-### `GET /api/stream`
-Server-Sent Events (SSE) telemetry stream emitting real-time `event`, `alert`, `state`, and `path` records.
-
-### `POST /api/simulate`
-Starts an attack simulation scenario.
-- **Payload:**
-```json
-{
-  "scenario": "stealthy | noisy | insider",
-  "speed": 1.0
-}
-```
-
-### `POST /api/reset`
-Flushes all alerts, resets decoys to un-triggered states, and clears the timeline.
+<br/>
 
 </details>
 
 ---
 
-## 10. Design Decisions
+<details>
+<summary><strong>🧪 Click to expand Verification & Test Suite</strong></summary>
 
-- **Aesthetics & Atmosphere:** Inspired by deep-sea research field-instruments and marine bathymetric charts. Built strictly with the **Abyss** (`#0b1517`), **Kelp** (`#1f3b36`), **Foam** (`#e9e4d4`), **Lure Amber** (`#e0a33a`), **Coral Rust** (`#c2553a`), and **Mist** (`#8fa8a0`) palette.
-- **No Neon Clichés:** Completely avoids synthetic purple glows, generic AI gradient headlines, or emoji icon spam. Amber is reserved strictly for glowing lure activations.
-- **Zero-Dependency Architecture:** Engineered exclusively with Go's standard library to guarantee rapid compilation, zero supply-chain risk, and sub-15ms cold starts.
-- **Offline Reliability:** All features, including movement reconstruction and incident report generation, function 100% deterministically without requiring cloud connectivity or external API keys.
+<br/>
 
----
-
-## 11. Testing & Validation
-
-Run the test suite across all packages:
 ```bash
-# Run unit and integration tests
+# Run all unit and end-to-end integration tests
 go test -v ./...
 
-# Verify code styling and vet compliance
+# Verify strict Go formatting and static analysis
+gofmt -l .
 go vet ./...
-gofmt -d .
 ```
 
-All 10 test suites pass with 100% coverage across network generation, decoy tripwires, detection engine, trajectory tracer, timeline builder, report exporter, and simulation scenarios.
+All 10 test suites pass with 100% test success across network generation, decoy tripwires, detection engine, path reconstruction, timeline compilation, report generation, and multi-scenario simulations.
+
+<br/>
+
+</details>
 
 ---
 
-## 12. Roadmap
-
-- [ ] Support for dynamic custom decoy injection via REST API.
-- [ ] Integration with Suricata / Zeek log ingestion for live PCAP replay.
-- [ ] Automated isolation webhook triggers into AWS Security Groups and Cloudflare WAF.
-- [ ] Multi-operator collaborative triage rooms via WebSockets.
-
----
-
-## 13. License
+## 7. License
 
 Released under the [MIT License](LICENSE). Copyright &copy; 2026 LANTERNFISH Contributors.

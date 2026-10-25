@@ -2,7 +2,7 @@
 
 **Target Duration:** 90 seconds  
 **Tone:** Authoritative, technical, focused, nautical field-instrument theme  
-**Visual Setting:** Browser open at `http://localhost:8080` in fullscreen  
+**Visual Setting:** Browser open at `https://lanternfish-kappa.vercel.app/` (or `http://localhost:8080`) in fullscreen  
 
 ---
 

@@ -1,70 +1,141 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="100%" height="240" style="background:#0b1517;border-radius:6px;overflow:hidden">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="900" height="240">
   <defs>
     <!-- Radial glow for amber esca lure -->
     <radialGradient id="lureGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#e0a33a" stop-opacity="0.8"/>
-      <stop offset="40%" stop-color="#e0a33a" stop-opacity="0.25"/>
+      <stop offset="0%" stop-color="#e0a33a" stop-opacity="0.9"/>
+      <stop offset="35%" stop-color="#e0a33a" stop-opacity="0.35"/>
+      <stop offset="70%" stop-color="#e0a33a" stop-opacity="0.1"/>
       <stop offset="100%" stop-color="#0b1517" stop-opacity="0"/>
     </radialGradient>
-    <filter id="grain">
-      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise"/>
-      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.04 0"/>
-      <feComposite in2="SourceGraphic" in="gl" operator="in"/>
-    </filter>
+
+    <!-- Linear gradient for bathymetric grid -->
+    <linearGradient id="gridGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1f3b36" stop-opacity="0.1"/>
+      <stop offset="50%" stop-color="#1f3b36" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#1f3b36" stop-opacity="0.1"/>
+    </linearGradient>
+
+    <!-- Anglerfish skin gradient -->
+    <linearGradient id="fishGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#142824"/>
+      <stop offset="100%" stop-color="#0e1d1a"/>
+    </linearGradient>
+
+    <!-- Radar scan pulse gradient -->
+    <radialGradient id="sonarPulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e0a33a" stop-opacity="0.5"/>
+      <stop offset="60%" stop-color="#e0a33a" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#e0a33a" stop-opacity="0"/>
+    </radialGradient>
   </defs>
 
-  <!-- Bathymetric contour lines -->
-  <g stroke="#1f3b36" stroke-width="1" stroke-dasharray="3 4" opacity="0.45">
-    <ellipse cx="450" cy="120" rx="420" ry="105"/>
-    <ellipse cx="450" cy="120" rx="340" ry="85"/>
-    <ellipse cx="450" cy="120" rx="260" ry="65"/>
-    <line x1="30" y1="120" x2="870" y2="120"/>
+  <!-- Canvas Background -->
+  <rect width="900" height="240" rx="8" fill="#0b1517" stroke="#1f3b36" stroke-width="1.5"/>
+
+  <!-- Bathymetric depth contour lines -->
+  <g stroke="url(#gridGrad)" stroke-width="1" stroke-dasharray="3 4">
+    <ellipse cx="450" cy="120" rx="430" ry="105"/>
+    <ellipse cx="450" cy="120" rx="350" ry="85"/>
+    <ellipse cx="450" cy="120" rx="270" ry="65"/>
+    <line x1="20" y1="120" x2="880" y2="120"/>
+    <line x1="450" y1="15" x2="450" y2="225" stroke-dasharray="2 6" opacity="0.4"/>
+  </g>
+
+  <!-- Ambient Bioluminescent Marine Snow / Embers -->
+  <g>
+    <!-- Particle 1 -->
+    <circle cx="210" cy="160" r="1.5" fill="#8fa8a0" opacity="0.4">
+      <animate attributeName="cy" values="180;140;180" dur="9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="9s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Particle 2 -->
+    <circle cx="340" cy="45" r="2" fill="#e0a33a" opacity="0.3">
+      <animate attributeName="cy" values="60;30;60" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.1;0.7;0.1" dur="7s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Particle 3 -->
+    <circle cx="560" cy="190" r="1.8" fill="#8fa8a0" opacity="0.35">
+      <animate attributeName="cy" values="210;170;210" dur="11s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.2;0.75;0.2" dur="11s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Particle 4 -->
+    <circle cx="730" cy="85" r="2.2" fill="#e0a33a" opacity="0.4">
+      <animate attributeName="cy" values="100;70;100" dur="8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.15;0.85;0.15" dur="8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Particle 5 -->
+    <circle cx="820" cy="175" r="1.5" fill="#8fa8a0" opacity="0.5">
+      <animate attributeName="cy" values="195;155;195" dur="6.5s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Anglerfish Body & Articulated Lure with SMIL Animation -->
-  <g transform="translate(110, 45)">
+  <g transform="translate(105, 52)">
     <!-- Swaying filament and lure group -->
     <g>
-      <animateTransform attributeName="transform" type="rotate" values="-4 60 70; 4 60 70; -4 60 70" dur="6s" repeatCount="indefinite" ease="ease-in-out"/>
+      <animateTransform attributeName="transform" type="rotate" values="-3.5 50 68; 3.5 50 68; -3.5 50 68" keyTimes="0; 0.5; 1" dur="5s" repeatCount="indefinite"/>
       
       <!-- Filament Stalk -->
-      <path d="M 40 70 C 35 30, 50 10, 85 8 C 96 7, 102 16, 94 24" fill="none" stroke="#8fa8a0" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M 38 68 C 30 28, 48 8, 86 6 C 98 5, 104 15, 96 23" fill="none" stroke="#8fa8a0" stroke-width="2.6" stroke-linecap="round"/>
       
+      <!-- Sonar Radar Wave 1 -->
+      <circle cx="96" cy="23" r="10" fill="none" stroke="#e0a33a" stroke-width="1.2">
+        <animate attributeName="r" values="8; 46; 8" keyTimes="0; 0.8; 1" dur="2.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9; 0; 0.9" keyTimes="0; 0.8; 1" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Sonar Radar Wave 2 (Phase Offset) -->
+      <circle cx="96" cy="23" r="18" fill="none" stroke="#e0a33a" stroke-width="0.9">
+        <animate attributeName="r" values="14; 58; 14" keyTimes="0; 0.85; 1" dur="3.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.7; 0; 0.7" keyTimes="0; 0.85; 1" dur="3.4s" repeatCount="indefinite"/>
+      </circle>
+
       <!-- Glowing Lure Aura -->
-      <circle cx="94" cy="24" r="28" fill="url(#lureGlow)">
-        <animate attributeName="r" values="24;32;24" dur="2.8s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="2.8s" repeatCount="indefinite"/>
+      <circle cx="96" cy="23" r="30" fill="url(#lureGlow)">
+        <animate attributeName="r" values="24; 34; 24" keyTimes="0; 0.5; 1" dur="2.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.65; 1; 0.65" keyTimes="0; 0.5; 1" dur="2.2s" repeatCount="indefinite"/>
       </circle>
+
       <!-- Lure Esca Solid Core -->
-      <circle cx="94" cy="24" r="6" fill="#e0a33a">
-        <animate attributeName="fill" values="#e0a33a;#f0b249;#e0a33a" dur="2.8s" repeatCount="indefinite"/>
+      <circle cx="96" cy="23" r="6.5" fill="#e0a33a">
+        <animate attributeName="fill" values="#e0a33a; #f7c062; #e0a33a" keyTimes="0; 0.5; 1" dur="2.2s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="92.5" cy="22.5" r="2" fill="#e9e4d4"/>
+      <circle cx="94.5" cy="21.5" r="2.2" fill="#e9e4d4"/>
     </g>
 
     <!-- Anglerfish Anatomy -->
-    <path d="M 20 65 C 32 54, 58 52, 76 60 C 85 64, 84 76, 70 80 C 50 84, 28 80, 16 72 Z" fill="#142824" stroke="#8fa8a0" stroke-width="2"/>
-    <!-- Translucent fang teeth -->
-    <path d="M 68 62 L 70 68 L 74 64 L 76 70 L 79 66" stroke="#e9e4d4" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
-    <!-- Deep sea eye -->
-    <circle cx="50" cy="62" r="2.5" fill="#8fa8a0"/>
-    <!-- Ventral fin -->
-    <path d="M 32 79 C 28 89, 20 88, 22 81" fill="#1f3b36" stroke="#8fa8a0" stroke-width="1.2"/>
+    <path d="M 18 64 C 30 52, 58 50, 78 58 C 88 62, 86 75, 72 79 C 52 83, 26 80, 14 71 Z" fill="url(#fishGrad)" stroke="#8fa8a0" stroke-width="2"/>
+    <!-- Translucent needle fangs -->
+    <path d="M 70 61 L 72 67 L 76 63 L 78 69 L 81 65" stroke="#e9e4d4" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+    <!-- Deep sea bio-eye -->
+    <circle cx="50" cy="61" r="2.8" fill="#8fa8a0"/>
+    <circle cx="50.6" cy="60.6" r="1.1" fill="#0b1517"/>
+    <!-- Pectoral / Ventral fin -->
+    <path d="M 30 78 C 26 89, 18 88, 20 80" fill="#1f3b36" stroke="#8fa8a0" stroke-width="1.2"/>
   </g>
 
-  <!-- Typography & Subtitle -->
-  <g transform="translate(290, 78)">
-    <text x="0" y="32" font-family="'Fraunces', Georgia, serif" font-size="38" font-weight="700" letter-spacing="4" fill="#e9e4d4">LANTERNFISH</text>
-    <text x="3" y="60" font-family="'IBM Plex Mono', Consolas, monospace" font-size="13" font-weight="600" letter-spacing="2.5" fill="#e0a33a">CYBER DECEPTION &amp; INTRUDER TRACING PLATFORM</text>
-    <text x="4" y="84" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11" fill="#8fa8a0" letter-spacing="1">Simulated Network &bull; Tripwire Lures &bull; Reconstructed Trajectory &bull; AI Incident Forensics</text>
+  <!-- Typography & Identity -->
+  <g transform="translate(285, 74)">
+    <text x="0" y="32" font-family="'Fraunces', Georgia, 'Times New Roman', serif" font-size="37" font-weight="700" letter-spacing="4" fill="#e9e4d4">LANTERNFISH</text>
+    <text x="3" y="60" font-family="'IBM Plex Mono', Consolas, 'Courier New', monospace" font-size="12.5" font-weight="600" letter-spacing="2.5" fill="#e0a33a">CYBER DECEPTION &amp; INTRUDER TRACING PLATFORM</text>
+    <text x="4" y="83" font-family="'IBM Plex Mono', Consolas, 'Courier New', monospace" font-size="11" fill="#8fa8a0" letter-spacing="0.8">Autonomous Honeytokens &bull; Kill-Chain Traversal &bull; Live SSE Telemetry &bull; AI Forensics</text>
   </g>
 
   <!-- Status Chip Top Right -->
-  <g transform="translate(730, 24)">
-    <rect width="140" height="26" rx="2" fill="#142824" stroke="#1f3b36" stroke-width="1"/>
-    <circle cx="14" cy="13" r="4" fill="#e0a33a">
-      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+  <g transform="translate(695, 22)">
+    <rect width="180" height="28" rx="4" fill="#142824" stroke="#1f3b36" stroke-width="1.2"/>
+    <circle cx="16" cy="14" r="4.5" fill="#e0a33a">
+      <animate attributeName="opacity" values="0.3;1;0.3" keyTimes="0;0.5;1" dur="1.8s" repeatCount="indefinite"/>
     </circle>
-    <text x="26" y="17" font-family="'IBM Plex Mono', monospace" font-size="9.5" font-weight="600" letter-spacing="0.8" fill="#8fa8a0">GRID ARMED &bull; 100%</text>
+    <text x="28" y="18" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" font-weight="600" letter-spacing="1" fill="#e9e4d4">GRID ARMED &bull; 100%</text>
+  </g>
+
+  <!-- Deployed Live Badge Bottom Right -->
+  <g transform="translate(635, 188)">
+    <rect width="240" height="28" rx="4" fill="#142824" stroke="#e0a33a" stroke-width="1" opacity="0.9"/>
+    <circle cx="16" cy="14" r="4" fill="#4ade80">
+      <animate attributeName="opacity" values="0.4;1;0.4" keyTimes="0;0.5;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="27" y="18" font-family="'IBM Plex Mono', Consolas, monospace" font-size="9.5" font-weight="600" letter-spacing="0.8" fill="#e0a33a">LIVE: lanternfish-kappa.vercel.app</text>
   </g>
 </svg>

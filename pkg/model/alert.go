@@ -18,7 +18,7 @@ type Alert struct {
 	RuleID         string        `json:"rule_id"`
 	RuleName       string        `json:"rule_name"`
 	Severity       AlertSeverity `json:"severity"`
-	Confidence     int           `json:"confidence"` // 0-100 score
+	Confidence     int           `json:"confidence"`      // 0-100 score
 	MitreTechnique string        `json:"mitre_technique"` // e.g. T1078, T1083, T1021, T1041
 	MitreName      string        `json:"mitre_name"`
 	MitreTactic    MitreTactic   `json:"mitre_tactic,omitempty"`
