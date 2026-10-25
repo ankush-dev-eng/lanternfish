@@ -1,0 +1,136 @@
+package decoy
+
+import (
+	"github.com/ankush-dev-eng/lanternfish/pkg/model"
+)
+
+// GenerateDefaultDecoys creates the complete inventory of realistic lure digital assets.
+func GenerateDefaultDecoys() []model.Decoy {
+	return []model.Decoy{
+		// 1. Fake File Decoys
+		{
+			ID:               "decoy-file-01",
+			TripwireID:       "TRIP-FILE-PASSWORDS",
+			Type:             model.DecoyTypeFile,
+			Name:             "passwords_2024_master.xlsx",
+			PathOrIdentifier: "/Users/devops/Documents/passwords_2024_master.xlsx",
+			NodeID:           "ws-dev-02",
+			NodeHostname:     "ws-dev-02.corp",
+			PayloadSummary:   "Excel spreadsheet filled with convincing corporate credentials, VPN logins, and root passwords with embedded canary web beacon",
+			IsDecoy:          true,
+			BaitEnticement:   "Convenient cleartext password repository discovered on senior engineer workstation",
+		},
+		{
+			ID:               "decoy-file-02",
+			TripwireID:       "TRIP-FILE-VPNCREDS",
+			Type:             model.DecoyTypeFile,
+			Name:             "vpn_creds_emergency.txt",
+			PathOrIdentifier: "C:\\Users\\admin\\Desktop\\vpn_creds_emergency.txt",
+			NodeID:           "gw-edge-01",
+			NodeHostname:     "gw-edge-01.corp",
+			PayloadSummary:   "Root OpenVPN profile configurations with hardcoded pre-shared keys and DNS canary token",
+			IsDecoy:          true,
+			BaitEnticement:   "Emergency administrative gateway remote access credentials in plaintext",
+		},
+		{
+			ID:               "decoy-file-03",
+			TripwireID:       "TRIP-FILE-BACKUPKEYS",
+			Type:             model.DecoyTypeFile,
+			Name:             "backup_vault_keys.pem",
+			PathOrIdentifier: "/etc/ssl/private/backup_vault_keys.pem",
+			NodeID:           "app-srv-01",
+			NodeHostname:     "app-srv-01.corp",
+			PayloadSummary:   "RSA 4096-bit private key file with tripwire certificate serial monitored by real-time auditd",
+			IsDecoy:          true,
+			BaitEnticement:   "Private key granting presumed direct root SSH access to isolated backup vault",
+		},
+		{
+			ID:               "decoy-file-04",
+			TripwireID:       "TRIP-FILE-PAYROLL",
+			Type:             model.DecoyTypeFile,
+			Name:             "payroll_Q3_exec_compensation.csv",
+			PathOrIdentifier: "\\\\file-share-corp\\confidential\\payroll_Q3_exec_compensation.csv",
+			NodeID:           "file-share-corp",
+			NodeHostname:     "file-share-corp.corp",
+			PayloadSummary:   "Detailed executive compensation dataset containing fake corporate account numbers & canary UUIDs",
+			IsDecoy:          true,
+			BaitEnticement:   "Highly sensitive C-suite payroll file located on open network file share",
+		},
+		{
+			ID:               "decoy-file-05",
+			TripwireID:       "TRIP-FILE-AWSKEYS",
+			Type:             model.DecoyTypeFile,
+			Name:             ".aws_keys.env",
+			PathOrIdentifier: "/opt/microservices/checkout/.aws_keys.env",
+			NodeID:           "app-srv-02",
+			NodeHostname:     "app-srv-02.corp",
+			PayloadSummary:   "Staged AWS environment file with honeytoken Access Key ID AKIAIOSFODNN7EXAMPLE",
+			IsDecoy:          true,
+			BaitEnticement:   "Cloud infrastructure root credentials in production service environment file",
+		},
+
+		// 2. Honeytoken Credentials
+		{
+			ID:               "decoy-cred-01",
+			TripwireID:       "TRIP-CRED-SVCADMIN",
+			Type:             model.DecoyTypeCredential,
+			Name:             "svc_global_admin",
+			PathOrIdentifier: "ActiveDirectory:CN=svc_global_admin,OU=ServiceAccounts,DC=corp",
+			NodeID:           "dc-corp-01",
+			NodeHostname:     "dc-corp-01.corp",
+			PayloadSummary:   "Domain Administrator account never used in production, monitored by Kerberos pre-auth trap",
+			IsDecoy:          true,
+			BaitEnticement:   "High-privilege Domain Admin account found via Kerberoasting or LDAP enumeration",
+		},
+		{
+			ID:               "decoy-cred-02",
+			TripwireID:       "TRIP-CRED-DBROOT",
+			Type:             model.DecoyTypeCredential,
+			Name:             "db_root_backup_svc",
+			PathOrIdentifier: "PostgreSQL:ROLE db_root_backup_svc WITH SUPERUSER",
+			NodeID:           "db-postgres-01",
+			NodeHostname:     "db-postgres-01.corp",
+			PayloadSummary:   "Postgres superuser role with hardcoded password in fake config file, triggers instant trap query",
+			IsDecoy:          true,
+			BaitEnticement:   "Database superuser role enabling unrestricted data dump access",
+		},
+		{
+			ID:               "decoy-cred-03",
+			TripwireID:       "TRIP-CRED-SSHKEY",
+			Type:             model.DecoyTypeCredential,
+			Name:             "id_ed25519_bastion_deploy",
+			PathOrIdentifier: "/home/ubuntu/.ssh/id_ed25519_bastion_deploy",
+			NodeID:           "web-prod-01",
+			NodeHostname:     "web-prod-01.corp",
+			PayloadSummary:   "SSH ED25519 key configured to alert bastion auth daemon upon first handshake",
+			IsDecoy:          true,
+			BaitEnticement:   "Deploy key offering lateral jump into backend infrastructure",
+		},
+
+		// 3. Decoy Hosts
+		{
+			ID:               "decoy-host-01",
+			TripwireID:       "TRIP-HOST-DBLEGACY",
+			Type:             model.DecoyTypeHost,
+			Name:             "db-legacy-backup.corp",
+			PathOrIdentifier: "10.10.30.91",
+			NodeID:           "db-legacy-backup",
+			NodeHostname:     "db-legacy-backup.corp",
+			PayloadSummary:   "Simulated legacy CentOS 7 server listening on unauthenticated MySQL 3306 and FTP 21",
+			IsDecoy:          true,
+			BaitEnticement:   "Unpatched database server appearing forgotten with open vulnerable ports",
+		},
+		{
+			ID:               "decoy-host-02",
+			TripwireID:       "TRIP-HOST-FINARCHIVE",
+			Type:             model.DecoyTypeHost,
+			Name:             "finance-share-archive.corp",
+			PathOrIdentifier: "10.10.40.89",
+			NodeID:           "finance-share-archive",
+			NodeHostname:     "finance-share-archive.corp",
+			PayloadSummary:   "Simulated Windows 2016 SMB share advertising unencrypted public share \\\\finance-share-archive\\archive",
+			IsDecoy:          true,
+			BaitEnticement:   "Deprecated corporate share server with legacy SMBv1 enabled and readable directories",
+		},
+	}
+}
