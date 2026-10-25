@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#0b1517"/>
+  <!-- Lure filament arc -->
+  <path d="M 24 46 C 22 28, 28 16, 42 14 C 47 13, 49 18, 45 22" fill="none" stroke="#8fa8a0" stroke-width="2" stroke-linecap="round"/>
+  <!-- Glowing Lure Esca (Lantern) -->
+  <circle cx="45" cy="22" r="6" fill="#e0a33a"/>
+  <circle cx="45" cy="22" r="10" fill="none" stroke="#e0a33a" stroke-width="1.5" stroke-opacity="0.4"/>
+  <circle cx="45" cy="22" r="2" fill="#e9e4d4"/>
+  <!-- Stylized Anglerfish Body Contour -->
+  <path d="M 16 48 C 22 42, 34 40, 42 46 C 46 49, 44 54, 38 55 C 28 57, 18 55, 14 51 Z" fill="#1f3b36" stroke="#8fa8a0" stroke-width="1.5"/>
+  <!-- Tooth details -->
+  <path d="M 38 46 L 39 49 L 41 47 L 42 50" fill="none" stroke="#e9e4d4" stroke-width="1.2" stroke-linejoin="round"/>
+</svg>
