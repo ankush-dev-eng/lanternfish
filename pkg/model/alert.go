@@ -21,6 +21,8 @@ type Alert struct {
 	Confidence     int           `json:"confidence"` // 0-100 score
 	MitreTechnique string        `json:"mitre_technique"` // e.g. T1078, T1083, T1021, T1041
 	MitreName      string        `json:"mitre_name"`
+	MitreTactic    MitreTactic   `json:"mitre_tactic,omitempty"`
+	MitreURL       string        `json:"mitre_url,omitempty"`
 	Title          string        `json:"title"`
 	Description    string        `json:"description"`
 	Timestamp      time.Time     `json:"timestamp"`
