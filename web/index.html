@@ -45,14 +45,14 @@
       </div>
 
       <div class="button-group">
-        <button id="btnStart" class="btn btn-primary" title="Initiate simulated intrusion">
+        <button id="btnStart" class="btn btn-primary" title="Initiate simulated intrusion (Shortcut: S)">
           <span class="btn-icon">&#9658;</span> SIMULATE
         </button>
-        <button id="btnPause" class="btn btn-secondary" disabled title="Pause or resume execution">
-          PAUSE
+        <button id="btnPause" class="btn btn-secondary" disabled title="Pause or resume execution (Shortcut: Space)">
+          <span class="btn-icon">&#10074;&#10074;</span> PAUSE
         </button>
-        <button id="btnReset" class="btn btn-secondary" title="Reset all decoys, alerts and traces">
-          RESET
+        <button id="btnReset" class="btn btn-secondary" title="Reset all decoys, alerts and traces (Shortcut: R)">
+          <span class="btn-icon">&#8635;</span> RESET
         </button>
       </div>
 
@@ -67,9 +67,15 @@
 
       <!-- Report Export Actions -->
       <div class="export-group">
-        <a href="/api/report.md" target="_blank" class="btn btn-outline" download="lanternfish-report.md" title="Download Markdown dossier">.MD</a>
-        <a href="/api/report.json" target="_blank" class="btn btn-outline" download="lanternfish-report.json" title="Download JSON dossier">.JSON</a>
-        <a href="/report" target="_blank" class="btn btn-outline" title="Printable HTML incident dossier">REPORT</a>
+        <a href="/api/report.md" target="_blank" class="btn btn-outline" download="lanternfish-report.md" title="Download Markdown dossier">
+          <span class="btn-icon">&#128196;</span> .MD
+        </a>
+        <a href="/api/report.json" target="_blank" class="btn btn-outline" download="lanternfish-report.json" title="Download JSON dossier">
+          <span class="btn-icon">{ }</span> .JSON
+        </a>
+        <a href="/report" target="_blank" class="btn btn-outline btn-report" title="Printable HTML incident dossier">
+          <span class="btn-icon">&#128202;</span> DOSSIER &rarr;
+        </a>
       </div>
     </div>
   </header>
@@ -101,6 +107,11 @@
       <div class="hud-value text-amber" id="hudActor">STANDBY</div>
       <div class="hud-sub" id="hudLocation">Location: Awaiting Ingress</div>
     </div>
+    <div class="hud-card">
+      <div class="hud-label">DWELL &amp; VELOCITY</div>
+      <div class="hud-value" id="hudDwell">--</div>
+      <div class="hud-sub" id="hudVelocity">Containment: Armed</div>
+    </div>
   </section>
 
   <!-- Main Workstation Grid -->
@@ -123,7 +134,7 @@
 
       <div class="canvas-container" id="canvasContainer">
         <canvas id="networkCanvas"></canvas>
-        <div id="nodeTooltip" class="node-tooltip" style="display: none;"></div>
+        <div id="nodeTooltip" class="node-tooltip"></div>
       </div>
 
       <div class="canvas-footer">
@@ -137,7 +148,7 @@
       <div class="tab-header">
         <button class="tab-btn active" data-tab="tabAlerts">ALERTS (<span id="tabAlertCount">0</span>)</button>
         <button class="tab-btn" data-tab="tabDecoys">DECOYS (<span id="tabDecoyCount">10</span>)</button>
-        <button class="tab-btn" data-tab="tabTimeline">TIMELINE</button>
+        <button class="tab-btn" data-tab="tabTimeline">TIMELINE (<span id="tabTimelineCount">0</span>)</button>
         <button class="tab-btn" data-tab="tabDossier">DOSSIER</button>
       </div>
 
