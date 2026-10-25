@@ -118,7 +118,7 @@
   <g transform="translate(285, 74)">
     <text x="0" y="32" font-family="'Fraunces', Georgia, 'Times New Roman', serif" font-size="37" font-weight="700" letter-spacing="4" fill="#e9e4d4">LANTERNFISH</text>
     <text x="3" y="60" font-family="'IBM Plex Mono', Consolas, 'Courier New', monospace" font-size="12.5" font-weight="600" letter-spacing="2.5" fill="#e0a33a">CYBER DECEPTION &amp; INTRUDER TRACING PLATFORM</text>
-    <text x="4" y="83" font-family="'IBM Plex Mono', Consolas, 'Courier New', monospace" font-size="11" fill="#8fa8a0" letter-spacing="0.8">Autonomous Honeytokens &bull; Kill-Chain Traversal &bull; Live SSE Telemetry &bull; AI Forensics</text>
+    <text x="4" y="83" font-family="'IBM Plex Mono', Consolas, 'Courier New', monospace" font-size="11" fill="#8fa8a0" letter-spacing="0.8">Autonomous Honeytokens &#8226; Kill-Chain Traversal &#8226; Live SSE Telemetry &#8226; AI Forensics</text>
   </g>
 
   <!-- Status Chip Top Right -->
@@ -127,7 +127,7 @@
     <circle cx="16" cy="14" r="4.5" fill="#e0a33a">
       <animate attributeName="opacity" values="0.3;1;0.3" keyTimes="0;0.5;1" dur="1.8s" repeatCount="indefinite"/>
     </circle>
-    <text x="28" y="18" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" font-weight="600" letter-spacing="1" fill="#e9e4d4">GRID ARMED &bull; 100%</text>
+    <text x="28" y="18" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" font-weight="600" letter-spacing="1" fill="#e9e4d4">GRID ARMED &#8226; 100%</text>
   </g>
 
   <!-- Deployed Live Badge Bottom Right -->

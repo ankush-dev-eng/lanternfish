@@ -19,8 +19,8 @@
   <rect width="880" height="200" rx="8" fill="#0b1517" stroke="#1f3b36" stroke-width="1.5"/>
 
   <!-- Subtitle / Title -->
-  <text x="24" y="32" font-family="'Fraunces', Georgia, serif" font-size="14.5" font-weight="700" fill="#e9e4d4">DECEPTION &amp; TRACING PIPELINE &bull; ADVERSARY TRAVERSAL</text>
-  <text x="24" y="49" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" fill="#8fa8a0">ATT&amp;CK Matrix Kill-Chain Reconstruction &bull; Real-time Tripwire Bait Interception</text>
+  <text x="24" y="32" font-family="'Fraunces', Georgia, serif" font-size="14.5" font-weight="700" fill="#e9e4d4">DECEPTION &amp; TRACING PIPELINE &#8226; ADVERSARY TRAVERSAL</text>
+  <text x="24" y="49" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" fill="#8fa8a0">ATT&amp;CK Matrix Kill-Chain Reconstruction &#8226; Real-time Tripwire Bait Interception</text>
 
   <!-- Live Status Chip in Diagram -->
   <g transform="translate(685, 18)">
